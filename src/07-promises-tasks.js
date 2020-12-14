@@ -28,8 +28,18 @@
  *      .catch((error) => console.log(error.message)) // 'Error: Wrong parameter is passed!
  *                                                    //  Ask her again.';
  */
-function willYouMarryMe(/* isPositiveAnswer */) {
-  throw new Error('Not implemented');
+function willYouMarryMe(isPositiveAnswer) {
+  // throw new Error('Not implemented');
+  return new Promise((resolve, reject) => {
+    if (typeof isPositiveAnswer !== 'boolean') {
+      reject(new Error('Wrong parameter is passed! Ask her again.'));
+    }
+    if (isPositiveAnswer) {
+      resolve('Hooray!!! She said "Yes"!');
+    } else {
+      resolve('Oh no, she said "No".');
+    }
+  });
 }
 
 
@@ -50,6 +60,29 @@ function willYouMarryMe(/* isPositiveAnswer */) {
  */
 function processAllPromises(/* array */) {
   throw new Error('Not implemented');
+  // return new Promise((resolve, reject) => {
+  //   const test = [];
+  //   let i = 0;
+  //   function gos() {
+  //   // return console.log(`123 ${e}`);
+  //     i = array.length;
+  //     reject(new Error('qweadww'));
+  //   }
+  //   for (; i < array.length; i += 1) {
+  //     array[i].then(
+  //       (result) => test.push(result),
+  //       (error) => gos(error),
+  //     ).finally(i = array.length);
+  //   }
+  //   // console.log(message);
+  //   // array.forEach((item) => {
+  //   //   item.then((result) => test.push(result), (error) => reject(error.message));
+  //   // });
+  //   if (test.length > 0) {
+  //     resolve(test);
+  //   }
+  //   reject(new Error('asd'));
+  // });
 }
 
 /**
