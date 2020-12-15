@@ -410,8 +410,39 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  // throw new Error('Not implemented');
+  // let regExp = new RegExp(, 'g');
+  const mainRegExpStr = '^\\/';
+  const additionRegExpStr = '.*?\\/';
+  let sumAdditionRegExpStr = '';
+  let doSearch = true;
+  let prevCommonPath = '';
+  let currentCommonPath = '';
+  function getPath(regExp, index) {
+    const path = new RegExp(regExp, 'g').exec(pathes[index]);
+    return (path === null ? null : path[0]);
+  }
+  while (doSearch) {
+    const curRegExpStr = mainRegExpStr + sumAdditionRegExpStr;
+    currentCommonPath = getPath(curRegExpStr, 0);
+    if (currentCommonPath === null) {
+      doSearch = false;
+    }
+    for (let i = 1; i < pathes.length; i += 1) {
+      const pathOfElement = getPath(curRegExpStr, i);
+      if (pathOfElement !== currentCommonPath) {
+        doSearch = false;
+        break;
+      }
+    }
+    if (doSearch) {
+      prevCommonPath = currentCommonPath;
+      currentCommonPath = '';
+      sumAdditionRegExpStr += additionRegExpStr;
+    }
+  }
+  return prevCommonPath;
 }
 
 
