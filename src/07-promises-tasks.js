@@ -58,8 +58,8 @@ function willYouMarryMe(isPositiveAnswer) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
+function processAllPromises(array) {
+  // throw new Error('Not implemented');
   // return new Promise((resolve, reject) => {
   //   const test = [];
   //   let i = 0;
@@ -83,6 +83,7 @@ function processAllPromises(/* array */) {
   //   }
   //   reject(new Error('asd'));
   // });
+  return Promise.all(array);
 }
 
 /**
@@ -104,8 +105,9 @@ function processAllPromises(/* array */) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
+function getFastestPromise(array) {
+  // throw new Error('Not implemented');
+  return Promise.race(array);
 }
 
 /**
@@ -125,8 +127,25 @@ function getFastestPromise(/* array */) {
  *    });
  *
  */
-function chainPromises(/* array, action */) {
-  throw new Error('Not implemented');
+async function chainPromises(array, action) {
+  // throw new Error('Not implemented');
+
+  const resolvedArr = [];
+  async function tryResolvePromises(promiseIndex) {
+    if (promiseIndex < array.length) {
+      try {
+        resolvedArr.push(await array[promiseIndex]);
+      } catch (err) { console.log(err.message); }
+      return tryResolvePromises(promiseIndex + 1);
+    }
+    return resolvedArr;
+  }
+
+  const result = tryResolvePromises(0)
+    .then((res) => Promise.resolve(res.reduce((acc, value) => action(acc, value))))
+    .then((res) => Promise.resolve(res));
+
+  return result;
 }
 
 module.exports = {
